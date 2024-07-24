@@ -24,7 +24,7 @@ contenedorProducto.forEach(producto => {
         })
         carritoContador.textContent++;
         //Remuevo el boton una vez agregado el producto al carrito
-        console.log(e.target.remove())
+        e.target.remove()
         console.log(carritoDeCompras)
     }
     })
