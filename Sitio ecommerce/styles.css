@@ -1,0 +1,212 @@
+/* Estilos básicos */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Estilo de la barra de navegación */
+nav {
+  background-color: #333;
+  color: white;
+  padding: 1em 2em;
+  display: flex;
+  top: 0;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  z-index: 1000;
+}
+
+/* Logo y texto */
+.nav-logo {
+  display: flex;
+  align-content: center;
+  margin-left: 5%;
+}
+
+.nav-logo h1 {
+  margin: 20px;
+  font-size: 25px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+/* Logo en la barra de navegación */
+.nav-logo img {
+  height: 70px;
+  border-radius: 50%;
+}
+
+/* Lista de navegación alineada a la derecha */
+.nav-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 2em;
+}
+
+.nav-menu li a {
+  color: white;
+  text-decoration: none;
+}
+
+.nav-menu li a:hover {
+  opacity: 0.8;
+}
+
+.carrito-compras img {
+  height: 30px;
+  width: 30px;
+  border-radius: 10px;
+}
+
+/* Estilo para la sección de lead art */
+.lead-art {
+  position: relative;
+  color: white;
+  width: 100%;
+  height: 700px; /* establece la altura que desees */
+  background-color: #333;
+  background-image: url("assets/misc/lead.jpg");
+  background-size: cover; /* ajusta la imagen para cubrir el contenedor */
+  background-repeat: no-repeat; /* evita que la imagen se repita */
+  background-position: center; /* centra la imagen */
+}
+
+/* Estilo para la sección principal */
+main {
+  flex: 1;
+  padding: 2em;
+  background-color: #f4f4f4;
+}
+
+.content-section {
+  margin-bottom: 2em;
+  margin-left: 7%;
+  margin-right: 7%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.content-section h2 {
+  margin-top: 0;
+}
+
+/* Estilo para el pie de página */
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 1em;
+}
+
+/* Estilo para el contenedor de la grilla de productos */
+.grilla-productos {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para cada producto individual */
+.producto {
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #fafafa;
+  padding: 10px;
+}
+
+.producto img {
+  width: 100%;
+  height: auto;
+}
+
+.producto h3 {
+  margin: 10px 0;
+  font-size: 16px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #333;
+}
+
+.producto p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.producto .btn {
+  border-radius: 15px;
+  background-color: black;
+  color: white;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  height: 9%;
+  width: 75%;
+}
+
+.btn-agregar-carrito {
+  background-color: rgb(153 83 35);
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Efectos de hover */
+.btn-agregar-carrito:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.product img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/*   Pagina Registracion */
+
+.contenedor-formulario {
+  background-color: rebeccapurple;
+}
+
+.formulario {
+  width: 100%; /* Opcional: para definir un ancho máximo del formulario */
+  max-width: 400px; /* Opcional: para limitar el ancho del formulario */
+  margin: 10% auto; /* Opcional: para centrar el formulario en la página */
+}
+
+.formulario input {
+  display: block; /* Hace que cada input sea un elemento de bloque */
+  width: 100%; /* Hace que el input ocupe todo el ancho disponible */
+  margin-bottom: 10px; /* Espacio entre cada input */
+  padding: 10px; /* Espacio interno dentro del input */
+  box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el ancho total */
+  height: 40px;
+}
+
+.formulario button {
+  border-radius: 20px;
+  background-color: #6fd56f;
+  width: 100px;
+  height: 35px;
+}
+
+.error {
+  font-size: 12px;
+  color: red;
+  background-color: black;
+  position: relative;
+  display: inline-block;
+  bottom: 5px;
+}

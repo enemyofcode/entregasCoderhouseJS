@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../styles.css" />
+    <title>Registro</title>
+  </head>
+  <body>
+    <!-- Barra de navegación -->
+    <nav>
+      <div class="nav-logo">
+        <a href="../paginas/index.html"
+          ><img src="../assets/misc/image logo.jpg" alt="Logo de la Empresa"
+        /></a>
+        <h1>El Rincón del Vicio</h1>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="login.html">Iniciar Sesion</a></li>
+      </ul>
+    </nav>
+    <div class="contenedor-formulario">
+      <form class="formulario">
+        <input id="nombre" type="text" placeholder="Nombre" />
+        <input id="apellido" type="text" placeholder="Apellido" />
+        <input id="contrasena" type="password" placeholder="Contraseña" />
+        <input
+          id="repetir-contrasena"
+          type="password"
+          placeholder="Repetir Contraseña"
+        />
+        <input id="email" type="text" placeholder="E-mail" />
+        <input id="telefono" type="number" placeholder="Telefono" />
+        <button id="btn-registro">Enviar</button>
+      </form>
+    </div>
+    <script src="../js/eventosRegistro.js"></script>
+  </body>
+   <footer>
+      &copy; 2024 Rincón del Vicio. Todos los derechos reservados. |
+      <a href="mailto:contacto@rdelvicio.com" style="color: white">contacto@rdelvicio.com</a>
+    </footer>
+</html>

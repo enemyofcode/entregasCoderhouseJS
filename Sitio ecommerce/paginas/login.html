@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <title>Iniciar Sesion</title>
+  </head>
+  <body>
+    <!-- Barra de navegación -->
+    <nav>
+      <div class="nav-logo">
+        <a href="../paginas/index.html"
+          ><img src="../assets/misc/image logo.jpg" alt="Logo de la Empresa"
+        /></a>
+        <h1>El Rincón del Vicio</h1>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="registracion.html">Registro</a></li>
+      </ul>
+    </nav>
+    <div class="contenedor-formulario">
+      <form class="formulario">
+        <input id="email" type="text" placeholder="E-mail" />
+        <input id="contrasena" type="password" placeholder="Contraseña" />
+        <button id="btn-login">Iniciar Sesión</button>
+      </form>
+    </div>
+    
+    <script src="../js/eventosLogin.js"></script>
+  </body>
+   <footer>
+      &copy; 2024 Rincón del Vicio. Todos los derechos reservados. |
+      <a href="mailto:contacto@rdelvicio.com" style="color: white">contacto@rdelvicio.com</a>
+    </footer>
+</html>
