@@ -6,6 +6,14 @@ const precio = document.querySelector('.producto p');
 const precios = document.querySelectorAll('.producto p')
 const carritoContador = document.querySelector('.contador-carrito')
 
+//Calculo precios stock
+let totalStock = 0;
+let total = precios.forEach(item => {
+     totalStock += parseInt(item.textContent.slice(1).replace(/[.]/g, ''))
+})
+console.log('Total de stock es de $' + totalStock)
+
+
 const carritoDeCompras = [];
 
 let producto = {
@@ -25,6 +33,15 @@ contenedorProducto.forEach(producto => {
         carritoContador.textContent++;
         //Remuevo el boton una vez agregado el producto al carrito
         e.target.remove()
+        //Agrego boton con otro estilo luego que un producto es agregado
+        const agregado = document.createElement('button')
+        agregado.style.backgroundColor = 'green';
+        agregado.style.borderRadius = '6px';
+        agregado.style.color = 'white'
+        agregado.textContent = 'Agregado';
+        producto.appendChild(agregado)
+        
+        //Muestro carrito
         console.log(carritoDeCompras)
     }
     })
