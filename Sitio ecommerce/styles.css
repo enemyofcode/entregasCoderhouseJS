@@ -65,6 +65,10 @@ nav {
   border-radius: 10px;
 }
 
+.btn-vaciar-carrito {
+  display: none;
+}
+
 /* Estilo para la sección de lead art */
 .lead-art {
   position: relative;
