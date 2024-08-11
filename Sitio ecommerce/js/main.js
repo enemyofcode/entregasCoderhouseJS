@@ -42,17 +42,23 @@ function cargarCarritoPersistido() {
     }
 }
 
-Swal.fire({
-    html: 'Para operar en nuestro sitio debe aceptar los <b>terminos y condiciones</b>',
-    confirmButtonText: 'Acepto',
-    icon: 'info',
-    toast: true,
-    confirmButtonColor: '#156ec4',
-    position: 'bottom',
-    customClass: {
+if (!localStorage.getItem('alertaMostrada')) {
+    // Muestro la alerta de terminos y condiciones
+    Swal.fire({
+      html: 'Para operar en nuestro sitio debe aceptar los <b>terminos y condiciones</b>',
+      confirmButtonText: 'Acepto',
+      icon: 'info',
+      toast: true,
+      confirmButtonColor: '#156ec4',
+      position: 'bottom',
+      customClass: {
         container: 'contenedor-sweetalert'
-    }
-  });
+      }
+    }).then(() => {
+      // Guardo el check cuando se acepta para que se muestre una sola vez
+      localStorage.setItem('alertaMostrada', 'true');
+    });
+  }
 
   function agregarProductosCarrito() {
     const contenedorProducto = document.querySelectorAll('.producto')
@@ -111,10 +117,11 @@ function mostrarContenedorCarrito() {
     })
 }
 
-/* Este listener por algun motivo a veces los borra y a veces no a los productos.
-Me esta volviendo loco , es lo unico por terminar de ajustar y reiniciar el estado de los botones al
-eliminar productos del carrito pero la logica está 👀
-Los estilos son horribles btw 😂 */
+/* Este listener por algun motivo para borrar los productos , hay que clickear en el borde derecho del boton
+debe ser un tema de estilos.
+Solo me falta reiniciar el estado de los botones en la grilla de
+productos al eliminar productos del carrito pero la logica está 👀
+Los estilos del carrito son horribles btw 😂 */
 
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('borrar-producto')) {
@@ -185,8 +192,8 @@ function comprar(productosEnCarrito) {
                 <strong>Total:</strong> $${total}
             `,
         }).then(()=>{
-             //Borro el localstorage una vez procesada la compra y reinicio el array de productos
-                localStorage.clear()
+             //Borro la variable productos del localstorage una vez procesada la compra y reinicio el array de productos
+                localStorage.removeItem('productos')
                 productosEnCarrito = []  
                 location.reload()
         });

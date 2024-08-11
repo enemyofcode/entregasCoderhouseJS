@@ -39,10 +39,10 @@ const validacionCampoVacio = (dato, selector) => {
   return true;
 };
 
-let local = JSON.parse(localStorage.getItem('usuario'));
 
-const validacionEmailRegistrado = (dato, selector) => {
-  if (dato !== local.email) {
+const validacionEmailRegistrado = (dato) => {
+  let local = JSON.parse(localStorage.getItem('usuario'));
+  if (!local || dato !== local.email) {
     Toastify({
       text: "El email ingresado no pertenece a un usuario registrado",
       duration: 3000,
@@ -66,7 +66,7 @@ btnLogin.addEventListener('click', (e) => {
     validacionCampoVacio(email.value, email) &&
     validacionCampoVacio(contrasena.value, contrasena) &&
     validacionEmail(email.value, email) &&
-    validacionEmailRegistrado(email.value, email)
+    validacionEmailRegistrado(email.value)
   ) {
     Toastify({
       text: "Login exitoso!",
