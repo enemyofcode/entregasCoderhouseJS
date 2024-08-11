@@ -1,82 +1,194 @@
-const carrito = document.querySelectorAll('.carrito-compras')
-const contenedorProducto = document.querySelectorAll('.producto')
-const imagen = document.querySelector('.producto img')
-const nombre = document.querySelector('.producto h3')
-const precio = document.querySelector('.producto p')
-const precios = document.querySelectorAll('.producto p')
+const contenedorCarrito = document.querySelector('.contenedor-carrito')
 const carritoContador = document.querySelector('.contador-carrito')
-const btnVaciarCarrito = document.querySelector('.btn-vaciar-carrito')
-/* let botonesProductoAgregado = document.querySelectorAll('.btn-producto-agregado') */
 
-//Calculo precios stock
-let totalStock = 0;
-let total = precios.forEach(item => {
-     totalStock += parseInt(item.textContent.slice(1).replace(/[.]/g, ''))
-})
-console.log('Total de stock es de $' + totalStock)
+//Array de Objetos
+let productosEnCarrito = []
 
-
-let carritoDeCompras = [];
-
-let producto = {
-    imagen , nombre , precio
-};
-
-
-contenedorProducto.forEach(producto => {
-    producto.addEventListener('click', (e) => {
-         if(e.target.classList.contains('btn-agregar-carrito')) {
-        console.log(producto)
-        carritoDeCompras.push({
-            imagen: producto.querySelector('img').src,
-            nombre: producto.querySelector('h3').textContent,
-            precio: producto.querySelector('p').textContent 
+function cargarProductos() {
+    const grillaProductos = document.querySelector('.grilla-productos')
+    fetch('../data/productos.json')
+        .then(response => response.json())
+        .then(productos => {
+            productos.forEach(prod => {
+                const contenedor = document.createElement('div')
+                contenedor.classList.add('producto')
+                contenedor.innerHTML = `
+                    <img src="${prod.imagen}" />
+                    <h3>${prod.titulo}</h3>
+                    <p>${prod.precio}</p>
+                    <button class="btn-agregar-carrito">Agregar al carrito</button>
+                `
+                grillaProductos.appendChild(contenedor)
+            })
+            agregarProductosCarrito()
+            mostrarContenedorCarrito()
+            cerrarCarrito(contenedorCarrito)
+            comprar(productosEnCarrito)
         })
-        carritoContador.textContent++;
-        //Muestro el boton de vaciar carrito si hay al menos un producto cargado
-        if(carritoContador.textContent > 0) {
-            btnVaciarCarrito.classList.remove('btn-vaciar-carrito')
-        }
-        
-        //Remuevo el boton una vez agregado el producto al carrito
-        e.target.remove()
-        //Agrego boton con otro estilo luego que un producto es agregado
-        const agregado = document.createElement('button')
-        agregado.style.backgroundColor = 'green';
-        agregado.classList.add('btn-producto-agregado')
-        agregado.style.borderRadius = '6px';
-        agregado.style.color = 'white'
-        agregado.textContent = 'Agregado';
-        producto.appendChild(agregado)
-        
-        //Muestro carrito
-        console.log(carritoDeCompras)
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    cargarProductos();
+    cargarCarritoPersistido();
+})
+
+function cargarCarritoPersistido() {
+    const productosGuardados = JSON.parse(localStorage.getItem('productos'));
+    if (productosGuardados && productosGuardados.length > 0) {
+        productosEnCarrito = productosGuardados;
+        carritoContador.textContent = productosEnCarrito.length;
+        actualizarListadoCarrito();
+        calcularTotal(productosEnCarrito);
     }
+}
+
+Swal.fire({
+    html: 'Para operar en nuestro sitio debe aceptar los <b>terminos y condiciones</b>',
+    confirmButtonText: 'Acepto',
+    icon: 'info',
+    toast: true,
+    confirmButtonColor: '#156ec4',
+    position: 'bottom',
+    customClass: {
+        container: 'contenedor-sweetalert'
+    }
+  });
+
+  function agregarProductosCarrito() {
+    const contenedorProducto = document.querySelectorAll('.producto')
+    contenedorProducto.forEach(contenedorProd => {
+        contenedorProd.addEventListener('click', (e) => {
+            if(e.target.classList.contains('btn-agregar-carrito')) {
+                const nuevoProducto = {
+                    nombreProducto: contenedorProd.querySelector('h3').textContent,
+                    precioProducto: parseInt(contenedorProd.querySelector('p').textContent.slice(1).replace(/[.]/g, ''))
+                }
+
+                productosEnCarrito.push(nuevoProducto)
+                carritoContador.textContent++;
+
+                // Remuevo el botón de agregar y agrego el botón de "Agregado"
+                e.target.remove()
+                contenedorProd.append(botonAgregadoAlCarrito())
+           
+                // Agrego los productos al contenedor del carrito
+                const listadoProductosCarrito = document.querySelector('.productos-carrito')
+                listadoProductosCarrito.innerHTML = ''
+
+                productosEnCarrito.forEach(producto => {
+                    const productoLista = document.createElement('li')
+                    productoLista.innerHTML = `${producto.nombreProducto} - ${producto.precioProducto}
+                    <button class="borrar-producto" ><span> x</span></button>`
+                    listadoProductosCarrito.appendChild(productoLista)
+                })
+
+                console.log(productosEnCarrito)
+                calcularTotal(productosEnCarrito) 
+
+                //agrego productos al storage
+                localStorage.setItem('productos',JSON.stringify(productosEnCarrito))
+            }     
+        })
     })
+}
+
+  function botonAgregadoAlCarrito() {
+        const btnAgregado = document.createElement('button')
+        btnAgregado.classList.add('btn-agregado-carrito')
+        btnAgregado.textContent = 'Agregado ✔'
+        btnAgregado.style.color = 'black'
+        btnAgregado.style.backgroundColor = '#90EE90'
+        return btnAgregado
+  }
+
+function mostrarContenedorCarrito() {
+    const carritoImg = document.querySelector('.carrito-compras img')
+    carritoImg.addEventListener('click', ()=> {
+        const contenedorCarrito = document.querySelector('.contenedor-carrito')
+        if(carritoContador.textContent > 0) {
+            contenedorCarrito.classList.toggle('ocultar')
+        }
+    })
+}
+
+/* Este listener por algun motivo a veces los borra y a veces no a los productos.
+Me esta volviendo loco , es lo unico por terminar de ajustar y reiniciar el estado de los botones al
+eliminar productos del carrito pero la logica está 👀
+Los estilos son horribles btw 😂 */
+
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('borrar-producto')) {
+        const index = e.target.getAttribute('data-index')
+        productosEnCarrito.splice(index, 1)
+        //Actualizo el local storage
+        localStorage.setItem('productos', JSON.stringify(productosEnCarrito));
+        // Elimino el producto de la lista
+        e.target.parentElement.remove()
+        carritoContador.textContent = productosEnCarrito.length
+        actualizarListadoCarrito()
+        calcularTotal(productosEnCarrito)
+        console.log('Array actualizado:', productosEnCarrito)
+        if(carritoContador.textContent == 0) {
+            contenedorCarrito.classList.toggle('ocultar')
+        }    
+    }
 })
 
-btnVaciarCarrito.addEventListener('click', ()=> {
-    carritoDeCompras = [];
-    carritoContador.textContent = 0;
-    //Escondo el boton cuando se vacia el carrito
-    btnVaciarCarrito.classList.add('btn-vaciar-carrito')
-    let botonesProductoAgregado = document.querySelectorAll('.btn-producto-agregado')
-    //Reinicio el estado de los botones
-    botonesProductoAgregado.forEach(item => {
-        item.classList.remove('btn-producto-agregado')
-        item.style = '';
-        item.textContent = 'Agregar al carrito'
-        item.classList.add('btn-agregar-carrito')
+function actualizarListadoCarrito() {
+    const listadoProductosCarrito = document.querySelector('.productos-carrito')
+    listadoProductosCarrito.innerHTML = ''
+
+    productosEnCarrito.forEach((producto, index) => {
+        const productoLista = document.createElement('li')
+        productoLista.style.listStyleType = 'none'
+        productoLista.innerHTML = `${producto.nombreProducto} - ${producto.precioProducto}
+        <button class="borrar-producto" data-index="${index}"><span> x</span></button>`
+        listadoProductosCarrito.appendChild(productoLista)
     })
-    console.log(carritoDeCompras)
-})
+}
 
+function calcularTotal(productosEnCarrito) {
+    let total = productosEnCarrito.reduce((acc,item) => {
+        return acc+= item.precioProducto
+    },0)
+    let contenedorTotal = document.querySelector('.total')
+    contenedorTotal.textContent = `Total: ${total}`;
+}
 
-//Work in progress carrito de compras... 
-// Proximos pasos , ver como inserto una tabla con los elementos que voy agregando al carrito aunque es un poco complejo
+function cerrarCarrito(contenedorCarrito) {
+    const btnCerrarCarrito = document.querySelector('#cerrar-carrito')
+    btnCerrarCarrito.addEventListener('click',()=> {
+        contenedorCarrito.classList.toggle('ocultar')
+    })
+}
 
-//Nota: Los eventos , modificacion del DOM y storage estan implementadas en las paginas de login/registro
+function comprar(productosEnCarrito) {
+    const btnComprar = document.querySelector('#comprar');
+    btnComprar.addEventListener('click', () => {
+        const detallesProductos = productosEnCarrito.map(producto => 
+            `<div>
+                <strong>Producto:</strong> ${producto.nombreProducto}<br>
+                <strong>Precio:</strong> $${producto.precioProducto}
+            </div>`
+        ).join('<br>');
 
+        // Calcular el total
+        const total = productosEnCarrito.reduce((acc, producto) => acc + producto.precioProducto, 0);
 
-
-
+        Swal.fire({
+            confirmButtonText: 'Aceptar',
+            icon: 'success',
+            html: `
+                Gracias por su compra <br><br>
+                ${detallesProductos}
+                <br><br><hr>
+                <strong>Total:</strong> $${total}
+            `,
+        }).then(()=>{
+             //Borro el localstorage una vez procesada la compra y reinicio el array de productos
+                localStorage.clear()
+                productosEnCarrito = []  
+                location.reload()
+        });
+    });
+}

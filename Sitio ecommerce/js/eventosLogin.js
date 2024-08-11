@@ -3,45 +3,71 @@
 const email = document.querySelector("#email");
 const contrasena = document.querySelector("#contrasena");
 const btnLogin = document.querySelector("#btn-login");
-const menuNavegacion = document.querySelector('.nav-menu')
-const linkRegistroNav = document.querySelector(".nav-menu li:nth-child(3) a")
+const menuNavegacion = document.querySelector('.nav-menu');
+const linkRegistroNav = document.querySelector(".nav-menu li:nth-child(3) a");
 let ingresoDatos = true;
 
 const usuarioLogin = {
-  email, contrasena
+  email: email.value,
+  contrasena: contrasena.value
 };
 
-// Validación de campo requerido
-const insertarValidacion = (campo) => {
-  const validacion = document.createElement("div");
-  validacion.classList.add("error");
-  validacion.innerHTML = "Campo requerido";
-  //quise hacerlo con un append pero me lo insertaba dentro del mismo input
-  campo.insertAdjacentElement("afterend", validacion);
-}
+const eliminarMensajesError = () => {
+  const errores = document.querySelectorAll('.error');
+  errores.forEach(error => error.remove());
+};
 
-//Insertar elemento en la barra de navegación una vez logueado
-const loginActivo = ()=> {
-  const textoBienvenida = document.createElement('li');
-  textoBienvenida.innerHTML = '<a style="color:yellow">Bienvenido usuario</a>'
-  menuNavegacion.appendChild(textoBienvenida)
-}
+const validacionEmail = (dato, selector) => {
+  if (!dato.includes('.com')) {
+    const contenedorMsjError = document.createElement('span');
+    contenedorMsjError.classList.add('error');
+    contenedorMsjError.innerHTML = 'El email debe contener el dominio .com';
+    selector.insertAdjacentElement('afterend', contenedorMsjError);
+    return false;
+  }
+  return true;
+};
 
-  btnLogin.addEventListener("click", (e) => {
-    //Usando el operador ternario
-    (email.value == "")
-    ? (insertarValidacion(email), ingresoDatos = false, e.preventDefault())
-    : usuarioLogin.email = email.value;
+const validacionCampoVacio = (dato, selector) => {
+  if (dato.length === 0) {
+    const contenedorMsjError = document.createElement('span');
+    contenedorMsjError.classList.add('error');
+    contenedorMsjError.innerHTML = 'Campo requerido';
+    selector.insertAdjacentElement('afterend', contenedorMsjError);
+    return false;
+  }
+  return true;
+};
 
-    //Usando el operador ternario
-    (contrasena.value == "") 
-    ? (insertarValidacion(contrasena), ingresoDatos = false, e.preventDefault()) 
-    : usuarioLogin.contrasena = contrasena.value;
+let local = JSON.parse(localStorage.getItem('usuario'));
 
+const validacionEmailRegistrado = (dato, selector) => {
+  if (dato !== local.email) {
+    Toastify({
+      text: "El email ingresado no pertenece a un usuario registrado",
+      duration: 3000,
+      position: "right",
+      gravity: "bottom",
+      style: {
+        background: "linear-gradient(to right, #ff5f15, #96c93d)",
+      },
+    }).showToast();
+    return false;
+  } else {
+    return true;
+  }
+};
 
-  //Valido que los datos ingresados en el form sean correctos para mandar info al localStorage
-  if(ingresoDatos) {
-    localStorage.setItem("emailUsuario", JSON.stringify(usuarioLogin.email));
+btnLogin.addEventListener('click', (e) => {
+  e.preventDefault();
+  eliminarMensajesError();
+  
+  if (
+    validacionCampoVacio(email.value, email) &&
+    validacionCampoVacio(contrasena.value, contrasena) &&
+    validacionEmail(email.value, email) &&
+    validacionEmailRegistrado(email.value, email)
+  ) {
     Toastify({
       text: "Login exitoso!",
       duration: 3000,
@@ -49,19 +75,5 @@ const loginActivo = ()=> {
         background: "linear-gradient(to right, #00b09b, #96c93d)",
       },
     }).showToast();
-    
-    //Elimino el link de registro de la navegación una vez logueado
-    linkRegistroNav.remove()
-  
-    //Inserto un nuevo item en la nav bar al loguearme
-    loginActivo(); 
-    e.preventDefault() 
-  } // Cierre if
-     console.log(localStorage.getItem('emailUsuario')) ;
-}); // Cierre Listener click
-
-
-/* Disclaimer: luego tendría que hacer un refactor para que la validación
-me la muestre una sola vez y no me la duplique el evento click */ 
-
-/* Disclaimer2: Tambien hacer una redireccion al home al loguearse correctamente */
+  }
+});

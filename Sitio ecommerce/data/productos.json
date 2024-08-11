@@ -1,0 +1,61 @@
+[{
+    "imagen": "../assets/juegos/7 wonders duel.png",
+    "titulo": "7 Wonders Duel",
+    "precio": "$66.000" 
+},{
+    "imagen": "../assets/juegos/pandemic.png",
+    "titulo": "Pandemic Legacy",
+    "precio": "$110.000"
+},{
+    "imagen": "../assets/juegos/the island.png",
+    "titulo": "The Island",
+    "precio": "$85.000"
+},{
+    "imagen": "../assets/juegos/salton-sea.jpg",
+    "titulo": "Salton Sea",
+    "precio": "$70.000"
+},{
+    "imagen": "../assets/juegos/sand.jpg",
+    "titulo": "Sand",
+    "precio": "$95.000"
+},{
+    "imagen": "../assets/juegos/catan.jpg",
+    "titulo": "Catan",
+    "precio": "$90.000"
+},{
+    "imagen": "../assets/juegos/twilight-struggle.jpg",
+    "titulo": "Twilight Struggle",
+    "precio": "$135.000"
+},{
+    "imagen": "../assets/juegos/godspeed.jpg",
+    "titulo": "Godspeed",
+    "precio": "$80.000"
+},{
+    "imagen": "../assets/juegos/ultimate-railroads.jpg",
+    "titulo": "Ultimate Railroads",
+    "precio": "$115.00"
+},{
+    "imagen": "../assets/juegos/bitoku.jpg",
+    "titulo": "Bitoku",
+    "precio": "$150.000"
+},{
+    "imagen": "../assets/juegos/planet-b.jpg",
+    "titulo": "Planet B",
+    "precio": "$160.000"
+},{
+    "imagen": "../assets/juegos/revive.jpg",
+    "titulo": "Revive",
+    "precio": "$125.000"
+},{
+    "imagen": "../assets/juegos/combat-commander.jpg",
+    "titulo": "Combat Commander",
+    "precio": "$165.000"
+},{
+    "imagen": "../assets/juegos/cielos-metal.jpg",
+    "titulo": "Cielos de Metal",
+    "precio": "$90.000"
+},{
+    "imagen": "../assets/juegos/alquimistas.jpg",
+    "titulo": "Alquimistas",
+    "precio": "$110.000"
+}]

@@ -7,95 +7,107 @@ const repetirContrasena = document.querySelector("#repetir-contrasena");
 const email = document.querySelector("#email");
 const telefono = document.querySelector("#telefono");
 const btnEnviar = document.querySelector("#btn-registro");
-let ingresoDatos = true;
-const registroUsuario = {nombre, apellido,email,telefono}
 
+const registroUsuario = { nombre, apellido, email, telefono };
 
-// Validación de campo requerido
-const insertarValidacion = (campo) => {
-  const validacion = document.createElement("div");
-  validacion.classList.add("error");
-  validacion.innerHTML = "Campo requerido";
-  //quise hacerlo con un append pero me lo insertaba dentro del mismo input
-  campo.insertAdjacentElement("afterend", validacion);
+const eliminarMensajesError = () => {
+  const errores = document.querySelectorAll('.error');
+  errores.forEach(error => error.remove());
+};
+
+const validacionNombreApellido = (dato, selector) => {
+  if (dato.length == 0 || dato.length <= 3) {
+    const contenedorMsjError = document.createElement('span');
+    contenedorMsjError.classList.add('error');
+    contenedorMsjError.innerHTML = 'La longitud del campo debe ser mayor a 3 caracteres';
+    selector.insertAdjacentElement("afterend", contenedorMsjError);
+    return false;
+  } else {
+    return true;
+  }
+};
+
+const validacionLongitudContrasenas = (dato, selector) => {
+  if (dato.length < 6) {
+    const contenedorMsjError = document.createElement('span');
+    contenedorMsjError.classList.add('error');
+    contenedorMsjError.innerHTML = 'La longitud del campo debe ser mayor a 6 caracteres';
+    selector.insertAdjacentElement('afterend', contenedorMsjError);
+    return false;
+  } else {
+    return true;
+  }
+};
+
+const validacionEmail = (dato, selector) => {
+  if (!dato.includes('.com')) {
+    const contenedorMsjError = document.createElement('span');
+    contenedorMsjError.classList.add('error');
+    contenedorMsjError.innerHTML = 'El email debe contener el dominio .com';
+    selector.insertAdjacentElement('afterend', contenedorMsjError);
+    return false;
+  } else {
+    return true;
+  }
+};
+
+const validacionTelefono = (dato,selector)=> {
+  if(dato.length != 10) {
+    const contenedorMsjError = document.createElement('span');
+    contenedorMsjError.classList.add('error');
+    contenedorMsjError.innerHTML = 'El telefono debe contener 10 caracteres';
+    selector.insertAdjacentElement('afterend', contenedorMsjError);
+    return false;
+  } else {
+    return true;
+  }
 }
 
-btnEnviar.addEventListener("click", (e) => {
-  //Aca no aplique ternario porque iba a ser un bardo
-  if (nombre.value == "") {
-    insertarValidacion(nombre);
-    e.preventDefault();
-    ingresoDatos = false;
-  } else if (nombre.value.length < 4) {
-    const validacionCaracteres = document.createElement("div");
-    validacionCaracteres.classList.add("error");
-    validacionCaracteres.innerHTML =
-      "La longitud del campo debe ser mayor a 4 caracteres";
-    nombre.insertAdjacentElement("afterend", validacionCaracteres);
-    ingresoDatos = false;
-    e.preventDefault();
-  } else registroUsuario.nombre = nombre.value;
-
-  
-  //Ternario
-  (apellido.value == "")
-  ? (insertarValidacion(apellido), ingresoDatos = false, e.preventDefault())
-  : registroUsuario.apellido = apellido.value;
-
-  if (contrasena.value == "" || contrasena.value.length < 6) {
-    const validacion = document.createElement("div");
-    validacion.classList.add("error");
-    //Cambie el texto de la validacion , por eso no uso la funcion
-    validacion.innerHTML = "Campo requerido o caracteres insuficientes";
-    contrasena.insertAdjacentElement("afterend", validacion);
-    ingresoDatos = false;
-    e.preventDefault();
+const validacionMatcheoContrasenas = (datoContrasena,datoRepetir,selector) => {
+  if(datoContrasena!=datoRepetir) {
+    const contenedorMsjError = document.createElement('span');
+    contenedorMsjError.classList.add('error');
+    contenedorMsjError.innerHTML = 'Las contraseñas no coinciden';
+    selector.insertAdjacentElement('afterend', contenedorMsjError);
+    return false;
+  } else {
+    return true;
   }
+}
 
-  if (repetirContrasena.value == "" || contrasena.value != repetirContrasena.value) {
-    const validacion = document.createElement("div");
-    validacion.classList.add("error");
-    validacion.innerHTML =
-      "Campo requerido o no coincide con el campo contrasena";
-    repetirContrasena.insertAdjacentElement("afterend", validacion);
-    ingresoDatos = false;
-    e.preventDefault();
-  }
+btnEnviar.addEventListener('click', (e) => {
+  e.preventDefault();
+  eliminarMensajesError(); // Elimino mensajes de error anteriores
 
-  if (email.value == "" || !email.value.includes("@")) {
-    const validacion = document.createElement("div");
-    validacion.classList.add("error");
-    validacion.innerHTML = "Campo requerido o email inválido";
-    email.insertAdjacentElement("afterend", validacion);
-    ingresoDatos = false;
-    e.preventDefault();
-  } else registroUsuario.email = email.value;
+  let esValido = true;
 
-  //Ternario
-  (telefono.value == "") ?
-    (insertarValidacion(telefono),ingresoDatos = false, e.preventDefault())
-    : registroUsuario.telefono = telefono.value
+  esValido &= validacionNombreApellido(nombre.value, nombre);
+  esValido &= validacionNombreApellido(apellido.value, apellido);
+  esValido &= validacionLongitudContrasenas(contrasena.value, contrasena);
+  esValido &= validacionLongitudContrasenas(repetirContrasena.value, repetirContrasena);
+  esValido &= validacionEmail(email.value, email);
+  esValido &= validacionTelefono(telefono.value,telefono)
+  esValido &= validacionMatcheoContrasenas(contrasena.value,repetirContrasena.value,repetirContrasena)
+
+  if (esValido) {
+    // Actualizo el objeto registroUsuario con los valores ingresados en el form
+    registroUsuario.nombre = nombre.value;
+    registroUsuario.apellido = apellido.value;
+    registroUsuario.email = email.value;
+    registroUsuario.telefono = telefono.value;
+    localStorage.setItem('usuario', JSON.stringify(registroUsuario))
   
-  
-  //Valido que los datos ingresados en el form sean correctos para mandar info al localStorage
-  if(ingresoDatos) {
-    e.preventDefault()
-    localStorage.setItem('usuarioRegistro', JSON.stringify(registroUsuario))
+    // Muestro mensaje de éxito con SweetAlert
     Swal.fire({
       title: '¡Registro Exitoso!',
       text: 'Tu cuenta ha sido creada con éxito. Ahora puedes disfrutar de todas nuestras funcionalidades y servicios.',
       icon: 'success',
-      confirmButtonText: 'OK' }).then((result) => {
-        if (result.isConfirmed) {
-          console.log("El usuario presionó OK");
-          window.location.href = "../paginas/index.html"; 
-        }
+      confirmButtonText: 'OK'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("El usuario presionó OK");
+        window.location.href = "../paginas/index.html"; // Redirijo a la página principal
+      }
     });
   }
-
-  }); // Cierre Listener del botón de registro
-
-  console.log(localStorage.getItem('usuarioRegistro'))
-  
-  /* Disclaimer: luego tendría que hacer un refactor para que la validación
-me la muestre una sola vez y no me la duplique el evento */ 
+});

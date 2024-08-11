@@ -63,10 +63,35 @@ nav {
   height: 30px;
   width: 30px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
-.btn-vaciar-carrito {
+.btn-vaciar-carrito  {
   display: none;
+}
+
+.btn-ver-carrito {
+  display: none;
+}
+
+.borrar-producto {
+  background-color: red;
+  color: white;
+  cursor: pointer;
+}
+
+#cerrar-carrito {
+  background-color: orange;
+  cursor: pointer;
+}
+
+#comprar {
+  color: white;
+    background-color: #1178b1;
+    cursor: pointer;
+    width: 90px;
+    margin-top: 5px;
+    font-size: 15px;
 }
 
 /* Estilo para la sección de lead art */
@@ -74,12 +99,12 @@ nav {
   position: relative;
   color: white;
   width: 100%;
-  height: 700px; /* establece la altura que desees */
+  height: 700px; 
   background-color: #333;
   background-image: url("assets/misc/lead.jpg");
-  background-size: cover; /* ajusta la imagen para cubrir el contenedor */
-  background-repeat: no-repeat; /* evita que la imagen se repita */
-  background-position: center; /* centra la imagen */
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center; 
 }
 
 /* Estilo para la sección principal */
@@ -168,6 +193,12 @@ footer {
   cursor: pointer;
 }
 
+/* Estilos Contenedor de Carrito*/
+
+.contenedor-carrito.ocultar {
+  display: none;
+}
+
 /* Efectos de hover */
 .btn-agregar-carrito:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -182,20 +213,26 @@ footer {
 
 .contenedor-formulario {
   background-color: rebeccapurple;
+  width: 100%;
+  height: 100vh; 
+  display: flex; 
+  justify-content: center; 
+  margin: 0; 
+  padding: 0; 
 }
 
 .formulario {
-  width: 100%; /* Opcional: para definir un ancho máximo del formulario */
-  max-width: 400px; /* Opcional: para limitar el ancho del formulario */
-  margin: 10% auto; /* Opcional: para centrar el formulario en la página */
+  width: 100%; 
+  max-width: 400px; 
+  margin: 10% auto; 
 }
 
 .formulario input {
-  display: block; /* Hace que cada input sea un elemento de bloque */
-  width: 100%; /* Hace que el input ocupe todo el ancho disponible */
-  margin-bottom: 10px; /* Espacio entre cada input */
-  padding: 10px; /* Espacio interno dentro del input */
-  box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el ancho total */
+  display: block; 
+  width: 100%; 
+  margin-bottom: 10px; 
+  padding: 10px; 
+  box-sizing: border-box; 
   height: 40px;
 }
 
@@ -213,4 +250,9 @@ footer {
   position: relative;
   display: inline-block;
   bottom: 5px;
+}
+
+.contenedor-sweetalert {
+  padding: 0 20px;
+  width: 50% !important;
 }
