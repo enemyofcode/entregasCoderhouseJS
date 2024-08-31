@@ -138,6 +138,9 @@ document.addEventListener('click', (e) => {
         if(carritoContador.textContent == 0) {
             contenedorCarrito.classList.toggle('ocultar')
         }    
+
+        //Agregar logica reiniciar botones
+        
     }
 })
 
@@ -199,3 +202,4 @@ function comprar(productosEnCarrito) {
         });
     });
 }
+

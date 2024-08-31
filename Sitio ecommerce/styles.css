@@ -75,14 +75,19 @@ nav {
 }
 
 .borrar-producto {
-  background-color: red;
+  background-color: #cd643f;
   color: white;
   cursor: pointer;
 }
 
 #cerrar-carrito {
-  background-color: orange;
+  color: white;
+  background-color: #4d5357;
   cursor: pointer;
+  width: 120px;
+  margin-top: 5px;
+  font-size: 15px;
+  height: 30px
 }
 
 #comprar {
@@ -92,6 +97,7 @@ nav {
     width: 90px;
     margin-top: 5px;
     font-size: 15px;
+    height: 30px
 }
 
 /* Estilo para la sección de lead art */
@@ -207,6 +213,24 @@ footer {
 .product img:hover {
   transform: scale(1.05);
   transition: transform 0.3s ease;
+}
+
+.productos-carrito {
+  list-style: none;
+  list-style-image: url("/Sitio\ ecommerce/assets/misc/light-blue-square.svg");
+  text-align: left;
+  padding: 1px 10px 0px 10px;
+}
+
+.titulo-carrito {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.total {
+  color: gold;
+  font-size: 20px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 /*   Pagina Registracion */
