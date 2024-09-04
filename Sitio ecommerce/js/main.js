@@ -123,7 +123,7 @@ Solo me falta reiniciar el estado de los botones en la grilla de
 productos al eliminar productos del carrito pero la logica está 👀
 Los estilos del carrito son horribles btw 😂 */
 
-document.addEventListener('click', (e) => {
+contenedorCarrito.addEventListener('click', (e) => {
     if (e.target.classList.contains('borrar-producto')) {
         const index = e.target.getAttribute('data-index')
         productosEnCarrito.splice(index, 1)
@@ -162,7 +162,7 @@ function calcularTotal(productosEnCarrito) {
         return acc+= item.precioProducto
     },0)
     let contenedorTotal = document.querySelector('.total')
-    contenedorTotal.textContent = `Total: ${total}`;
+    contenedorTotal.textContent = `Total: $${total}`;
 }
 
 function cerrarCarrito(contenedorCarrito) {
