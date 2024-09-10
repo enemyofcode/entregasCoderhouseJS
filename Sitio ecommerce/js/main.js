@@ -22,6 +22,7 @@ function cargarProductos() {
             })
             agregarProductosCarrito()
             mostrarContenedorCarrito()
+            borrarCarrito(productosEnCarrito)
             cerrarCarrito(contenedorCarrito)
             comprar(productosEnCarrito)
         })
@@ -30,6 +31,7 @@ function cargarProductos() {
 document.addEventListener('DOMContentLoaded', ()=>{
     cargarProductos();
     cargarCarritoPersistido();
+    cargarEstadoBotones();
 })
 
 function cargarCarritoPersistido() {
@@ -74,6 +76,8 @@ if (!localStorage.getItem('alertaMostrada')) {
                 carritoContador.textContent++;
 
                 // Remuevo el botón de agregar y agrego el botón de "Agregado"
+                e.target.classList.remove('btn-agregar-carrito')
+                e.target.classList.add('btn-agregado-carrito')
                 e.target.remove()
                 contenedorProd.append(botonAgregadoAlCarrito())
            
@@ -93,6 +97,9 @@ if (!localStorage.getItem('alertaMostrada')) {
 
                 //agrego productos al storage
                 localStorage.setItem('productos',JSON.stringify(productosEnCarrito))
+
+                //agregar estado de botones al storage
+               enviarEstadoBotones();
             }     
         })
     })
@@ -139,8 +146,8 @@ contenedorCarrito.addEventListener('click', (e) => {
             contenedorCarrito.classList.toggle('ocultar')
         }    
 
-        //Agregar logica reiniciar botones
-        
+        //Envio el estado de los botones de los productos al localstorage
+        enviarEstadoBotones();
     }
 })
 
@@ -170,6 +177,30 @@ function cerrarCarrito(contenedorCarrito) {
     btnCerrarCarrito.addEventListener('click',()=> {
         contenedorCarrito.classList.toggle('ocultar')
     })
+}
+
+function borrarCarrito(productosEnCarrito) {
+    const btnBorrarCarrito = document.querySelector('#borrar-carrito');
+    btnBorrarCarrito.addEventListener('click', () => {
+        carritoContador.textContent = 0;
+        localStorage.removeItem('productos');
+        productosEnCarrito.splice(0, productosEnCarrito.length); // Vacía el array sin perder referencia
+
+        Swal.fire({
+            confirmButtonText: 'Aceptar',
+            icon: 'success',
+            html: `Su carrito ha sido eliminado exitosamente`,
+        });
+
+        contenedorCarrito.classList.toggle('ocultar');
+        const listadoProductosCarrito = document.querySelectorAll('.productos-carrito');
+        listadoProductosCarrito.forEach(prod => {
+            prod.innerHTML = ''; // Vacía los elementos hijos
+        });
+
+        const tot = document.querySelector('.total');
+        tot.textContent = 'Total:';
+    });
 }
 
 function comprar(productosEnCarrito) {
@@ -203,3 +234,20 @@ function comprar(productosEnCarrito) {
     });
 }
 
+function enviarEstadoBotones() {
+    let estadoBtns = document.querySelectorAll('.producto button')
+    let arrayBtns = []
+    estadoBtns.forEach(btn => {
+        arrayBtns.push(btn.classList)
+    })
+    localStorage.setItem('EstadoBotones',JSON.stringify(arrayBtns))
+}
+
+
+function cargarEstadoBotones() {
+    let arrayBtns = JSON.parse(localStorage.getItem('EstadoBotones'))
+    let estadoBtns = document.querySelectorAll('.producto button')
+    estadoBtns.forEach(btn => {
+        console.log('1' + btn)
+    })
+}

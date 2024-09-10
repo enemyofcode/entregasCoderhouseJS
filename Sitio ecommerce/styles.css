@@ -90,6 +90,16 @@ nav {
   height: 30px
 }
 
+#borrar-carrito {
+  color: rgb(255, 255, 255);
+  background-color: #c23f36;
+  cursor: pointer;
+  width: 120px;
+  margin-top: 5px;
+  font-size: 15px;
+  height: 30px
+}
+
 #comprar {
   color: white;
     background-color: #1178b1;
@@ -197,6 +207,13 @@ footer {
   border-radius: 6px;
   color: white;
   cursor: pointer;
+}
+
+.btn-agregado-carrito {
+  background-color: rgb(144, 238, 144);
+  color: white;
+  border-radius: 6px;
+  cursor: not-allowed;
 }
 
 /* Estilos Contenedor de Carrito*/
